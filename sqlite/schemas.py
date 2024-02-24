@@ -135,14 +135,15 @@ class Patient(UserWhoIsNotAnAdminBaseClass):
 # Patient History
 class PatientHistoryBaseClass(BaseModel):
     spo2_reading: float
-    bp_reading: float
+    systolic_reading: int
+    diastolic_reading: int
     temp_reading: float
     heartbeat_reading: float
 
     @field_validator("*")
     @classmethod
-    def value_validator(cls, v: float) -> float:
-        if isinstance(v, float):
+    def value_validator(cls, v: float | int) -> float | int:
+        if isinstance(v, float | int):
             if v <= 0:
                 raise ValueError("must be a positive value")
         return v

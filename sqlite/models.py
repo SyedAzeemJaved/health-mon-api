@@ -120,7 +120,8 @@ class PatientHistoryModel(Base):
     )
 
     spo2_reading = Column(Float, nullable=False, default=0.0)
-    bp_reading = Column(Float, nullable=False, default=0.0)
+    systolic_reading = Column(Integer, nullable=False, default=0)
+    diastolic_reading = Column(Integer, nullable=False, default=0)
     temp_reading = Column(Float, nullable=False, default=0.0)
     heartbeat_reading = Column(Float, nullable=False, default=0.0)
 
