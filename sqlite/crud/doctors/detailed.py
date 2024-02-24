@@ -18,7 +18,6 @@ def get_all_doctors_with_patients(
                 func.distinct(models.patient_doctor_association_table.c.patient_id)
             ).label("patient_ids"),
         )
-        .filter(models.UserModel.user_role == UserRoleEnum.DOCTOR)
         .outerjoin(
             models.patient_doctor_association_table,
             models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
@@ -26,6 +25,8 @@ def get_all_doctors_with_patients(
         .options(
             joinedload(models.UserModel.additional_details),
         )
+        .filter(models.UserModel.user_role == UserRoleEnum.DOCTOR)
+        .group_by(models.UserModel.id)
     )
 
 
@@ -68,16 +69,16 @@ def get_doctor_with_patients_by_id(
                 func.distinct(models.patient_doctor_association_table.c.patient_id)
             ).label("patient_ids"),
         )
+        .outerjoin(
+            models.patient_doctor_association_table,
+            models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
+        )
+        .options(joinedload(models.UserModel.additional_details))
         .filter(
             and_(
                 models.UserModel.user_role == UserRoleEnum.DOCTOR,
                 models.UserModel.id == user_id,
             )
         )
-        .outerjoin(
-            models.patient_doctor_association_table,
-            models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
-        )
-        .options(joinedload(models.UserModel.additional_details))
         .first()
     )

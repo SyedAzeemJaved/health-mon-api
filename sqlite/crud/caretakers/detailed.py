@@ -18,15 +18,14 @@ def get_all_caretakers_with_patients(
                 func.distinct(models.patient_caretaker_association_table.c.patient_id)
             ).label("patient_ids"),
         )
-        .filter(models.UserModel.user_role == UserRoleEnum.CARETAKER)
         .outerjoin(
             models.patient_caretaker_association_table,
             models.UserModel.id
             == models.patient_caretaker_association_table.c.caretaker_id,
         )
-        .options(
-            joinedload(models.UserModel.additional_details),
-        )
+        .options(joinedload(models.UserModel.additional_details))
+        .filter(models.UserModel.user_role == UserRoleEnum.CARETAKER)
+        .group_by(models.UserModel.id)
     )
 
 
@@ -70,17 +69,17 @@ def get_caretaker_with_patients_by_id(
                 func.distinct(models.patient_caretaker_association_table.c.patient_id)
             ).label("patient_ids"),
         )
-        .filter(
-            and_(
-                models.UserModel.user_role == UserRoleEnum.CARETAKER,
-                models.UserModel.id == user_id,
-            )
-        )
         .outerjoin(
             models.patient_caretaker_association_table,
             models.UserModel.id
             == models.patient_caretaker_association_table.c.caretaker_id,
         )
         .options(joinedload(models.UserModel.additional_details))
+        .filter(
+            and_(
+                models.UserModel.user_role == UserRoleEnum.CARETAKER,
+                models.UserModel.id == user_id,
+            )
+        )
         .first()
     )

@@ -24,8 +24,8 @@ def get_user_by_id(user_id: int, db: Session):
     """Get a single user by id from the database"""
     return (
         db.query(models.UserModel)
-        .filter(models.UserModel.id == user_id)
         .options(joinedload(models.UserModel.additional_details))
+        .filter(models.UserModel.id == user_id)
         .first()
     )
 
@@ -34,8 +34,8 @@ def get_user_by_email(user_email: str, db: Session):
     """Get a single user by email from the database"""
     return (
         db.query(models.UserModel)
-        .filter(models.UserModel.email == user_email)
         .options(joinedload(models.UserModel.additional_details))
+        .filter(models.UserModel.email == user_email)
         .first()
     )
 
@@ -45,8 +45,8 @@ def get_user_by_phone(user_phone: str, db: Session):
     return (
         db.query(models.UserModel)
         .join(models.UserModel.additional_details)
-        .filter(models.UserAdditionalDetailsModel.phone == user_phone)
         .options(joinedload(models.UserModel.additional_details))
+        .filter(models.UserAdditionalDetailsModel.phone == user_phone)
         .first()
     )
 

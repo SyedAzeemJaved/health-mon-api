@@ -21,7 +21,6 @@ def get_all_patients_with_caretakers_and_doctors(
                 func.distinct(models.patient_doctor_association_table.c.doctor_id)
             ).label("doctor_ids"),
         )
-        .filter(models.UserModel.user_role == UserRoleEnum.PATIENT)
         .outerjoin(
             models.patient_caretaker_association_table,
             models.UserModel.id
@@ -34,6 +33,8 @@ def get_all_patients_with_caretakers_and_doctors(
         .options(
             joinedload(models.UserModel.additional_details),
         )
+        .filter(models.UserModel.user_role == UserRoleEnum.PATIENT)
+        .group_by(models.UserModel.id)
     )
 
 
@@ -51,13 +52,6 @@ def get_all_patients_with_caretakers_and_doctors_for_a_particular_user(
                 func.distinct(models.patient_doctor_association_table.c.doctor_id)
             ).label("doctor_ids"),
         )
-        .filter(
-            and_(
-                models.UserModel.user_role == UserRoleEnum.PATIENT,
-                models.patient_caretaker_association_table.c.caretaker_id == user_id,
-                models.patient_doctor_association_table.c.doctor_id == user_id,
-            )
-        )
         .outerjoin(
             models.patient_caretaker_association_table,
             models.UserModel.id
@@ -69,6 +63,13 @@ def get_all_patients_with_caretakers_and_doctors_for_a_particular_user(
         )
         .options(
             joinedload(models.UserModel.additional_details),
+        )
+        .filter(
+            and_(
+                models.UserModel.user_role == UserRoleEnum.PATIENT,
+                models.patient_caretaker_association_table.c.caretaker_id == user_id,
+                models.patient_doctor_association_table.c.doctor_id == user_id,
+            )
         )
     )
 
@@ -87,12 +88,6 @@ def get_patient_with_caretakers_and_doctors_by_id(
                 func.distinct(models.patient_doctor_association_table.c.doctor_id)
             ).label("doctor_ids"),
         )
-        .filter(
-            and_(
-                models.UserModel.user_role == UserRoleEnum.PATIENT,
-                models.UserModel.id == user_id,
-            )
-        )
         .outerjoin(
             models.patient_caretaker_association_table,
             models.UserModel.id
@@ -103,5 +98,11 @@ def get_patient_with_caretakers_and_doctors_by_id(
             models.UserModel.id == models.patient_doctor_association_table.c.patient_id,
         )
         .options(joinedload(models.UserModel.additional_details))
+        .filter(
+            and_(
+                models.UserModel.user_role == UserRoleEnum.PATIENT,
+                models.UserModel.id == user_id,
+            )
+        )
         .first()
     )

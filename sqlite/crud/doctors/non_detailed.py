@@ -12,13 +12,13 @@ def get_all_doctors_by_list_of_ids(
     """Get all doctors by list of ids from the database"""
     return (
         db.query(models.UserModel)
+        .options(joinedload(models.UserModel.additional_details))
         .filter(
             and_(
                 models.UserModel.user_role == UserRoleEnum.DOCTOR,
                 models.UserModel.id.in_(doctor_ids),
             )
         )
-        .options(joinedload(models.UserModel.additional_details))
     )
 
 
@@ -26,12 +26,12 @@ def get_doctor_by_id(user_id: int, db: Session) -> models.UserModel:
     """Get a single doctor by id from the database"""
     return (
         db.query(models.UserModel)
+        .options(joinedload(models.UserModel.additional_details))
         .filter(
             and_(
                 models.UserModel.user_role == UserRoleEnum.DOCTOR,
                 models.UserModel.id == user_id,
             )
         )
-        .options(joinedload(models.UserModel.additional_details))
         .first()
     )
