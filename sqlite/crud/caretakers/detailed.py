@@ -41,12 +41,6 @@ def get_all_caretakers_with_patients_for_a_particular_user(
                 func.distinct(models.patient_caretaker_association_table.c.patient_id)
             ).label("patient_ids"),
         )
-        .filter(
-            and_(
-                models.UserModel.user_role == UserRoleEnum.CARETAKER,
-                models.UserModel.id == user_id,
-            )
-        )
         .outerjoin(
             models.patient_caretaker_association_table,
             models.UserModel.id
@@ -54,6 +48,12 @@ def get_all_caretakers_with_patients_for_a_particular_user(
         )
         .options(
             joinedload(models.UserModel.additional_details),
+        )
+        .filter(
+            and_(
+                models.UserModel.user_role == UserRoleEnum.CARETAKER,
+                models.UserModel.id == user_id,
+            )
         )
     )
 
