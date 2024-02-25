@@ -20,8 +20,8 @@ def get_all_caretakers_with_patients(
         )
         .outerjoin(
             models.patient_caretaker_association_table,
-            models.UserModel.id
-            == models.patient_caretaker_association_table.c.caretaker_id,
+            models.patient_caretaker_association_table.c.caretaker_id
+            == models.UserModel.id,
         )
         .options(joinedload(models.UserModel.additional_details))
         .filter(models.UserModel.user_role == UserRoleEnum.CARETAKER)
@@ -43,8 +43,8 @@ def get_all_caretakers_with_patients_for_a_particular_user(
         )
         .outerjoin(
             models.patient_caretaker_association_table,
-            models.UserModel.id
-            == models.patient_caretaker_association_table.c.caretaker_id,
+            models.patient_caretaker_association_table.c.caretaker_id
+            == models.UserModel.id,
         )
         .options(
             joinedload(models.UserModel.additional_details),
@@ -71,8 +71,8 @@ def get_caretaker_with_patients_by_id(
         )
         .outerjoin(
             models.patient_caretaker_association_table,
-            models.UserModel.id
-            == models.patient_caretaker_association_table.c.caretaker_id,
+            models.patient_caretaker_association_table.c.caretaker_id
+            == models.UserModel.id,
         )
         .options(joinedload(models.UserModel.additional_details))
         .filter(

@@ -20,7 +20,7 @@ def get_all_doctors_with_patients(
         )
         .outerjoin(
             models.patient_doctor_association_table,
-            models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
+            models.patient_doctor_association_table.c.doctor_id == models.UserModel.id,
         )
         .options(
             joinedload(models.UserModel.additional_details),
@@ -44,7 +44,7 @@ def get_all_doctors_with_patients_for_a_particular_user(
         )
         .outerjoin(
             models.patient_doctor_association_table,
-            models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
+            models.patient_doctor_association_table.c.doctor_id == models.UserModel.id,
         )
         .options(
             joinedload(models.UserModel.additional_details),
@@ -71,7 +71,7 @@ def get_doctor_with_patients_by_id(
         )
         .outerjoin(
             models.patient_doctor_association_table,
-            models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
+            models.patient_doctor_association_table.c.doctor_id == models.UserModel.id,
         )
         .options(joinedload(models.UserModel.additional_details))
         .filter(

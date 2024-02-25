@@ -59,8 +59,8 @@ def get_detailed_user(db_user: models.UserModel, db: Session):
         )
         .outerjoin(
             models.patient_caretaker_association_table,
-            models.UserModel.id
-            == models.patient_caretaker_association_table.c.patient_id,
+            models.patient_caretaker_association_table.c.patient_id
+            == models.UserModel.id,
         )
         .options(selectinload(models.UserModel.additional_details))
         .filter(models.UserModel.id == db_user.id)
