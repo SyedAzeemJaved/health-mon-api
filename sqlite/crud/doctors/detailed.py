@@ -42,18 +42,18 @@ def get_all_doctors_with_patients_for_a_particular_user(
                 func.distinct(models.patient_doctor_association_table.c.patient_id)
             ).label("patient_ids"),
         )
-        .filter(
-            and_(
-                models.UserModel.user_role == UserRoleEnum.DOCTOR,
-                models.UserModel.id == user_id,
-            )
-        )
         .outerjoin(
             models.patient_doctor_association_table,
             models.UserModel.id == models.patient_doctor_association_table.c.doctor_id,
         )
         .options(
             joinedload(models.UserModel.additional_details),
+        )
+        .filter(
+            and_(
+                models.UserModel.user_role == UserRoleEnum.DOCTOR,
+                models.UserModel.id == user_id,
+            )
         )
     )
 
