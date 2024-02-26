@@ -18,7 +18,10 @@ from routers.admin import (
 
 # Current user level routes - Non admin
 ## Current - Patient user level routes
-from routers.current.patients import history as current_patient_history
+from routers.current.patients import (
+    actions as current_patient_actions,
+    history as current_patient_history,
+)
 
 ## Current - Caretaker and doctor user level routes
 from routers.current.caretaker_and_doctor import (
@@ -61,6 +64,10 @@ tags_metadata = [
     },
     # Current level routes - Non admin
     ## Current - Patient user level routes
+    {
+        "name": "patient - actions",
+        "description": "Post actions for current user - Patient level routes.",
+    },
     {
         "name": "patient - history",
         "description": "Post history for current user - Patient level routes.",
@@ -108,6 +115,7 @@ app.include_router(doctors.router)
 app.include_router(patients.router)
 # Current user level routes - Non admin
 ## Current - Patient user level routes
+app.include_router(current_patient_actions.router)
 app.include_router(current_patient_history.router)
 ## Current - Caretaker and doctor user level routes
 app.include_router(current_caretaker_and_doctor_patients.router)

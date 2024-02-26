@@ -30,3 +30,10 @@ class PatientBloodGroupEnum(str, enum.Enum):
     O_POSITIVE = "O+"
     O_NEGATIVE = "O-"
     UNKNOWN = "Unknown"
+
+
+class PatientActionEnum(str, enum.Enum):
+    ACTION_1 = "action_1"
+    ACTION_2 = "action_2"
+    ACTION_3 = "action_3"
+    ACTION_4 = "action_4"

@@ -6,6 +6,7 @@ from sqlite.enums import (
     UserRoleEnum,
     PatientBloodGroupEnum,
     GenderEnum,
+    PatientActionEnum,
 )
 
 from utils.date_utils import (
@@ -164,6 +165,11 @@ class PatientHistory(PatientHistoryBaseClass):
     id: int
 
     created_at: datetime
+
+
+# Patient Action
+class PatientAction(BaseModel):
+    action: PatientActionEnum
 
 
 Token.model_rebuild()
