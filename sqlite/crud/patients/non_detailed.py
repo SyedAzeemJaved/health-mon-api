@@ -22,7 +22,7 @@ def get_all_patients_by_list_of_ids(
     )
 
 
-def get_patient_by_id(user_id: int, db: Session) -> models.UserModel:
+def get_patient_by_id(user_id: int, db: Session):
     """Get a single patient by id from the database"""
     return (
         db.query(models.UserModel)

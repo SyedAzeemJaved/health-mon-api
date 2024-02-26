@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import and_
 
@@ -22,7 +23,7 @@ def get_all_caretakers_by_list_of_ids(
     )
 
 
-def get_caretaker_by_id(user_id: int, db: Session) -> models.UserModel:
+def get_caretaker_by_id(user_id: int, db: Session):
     """Get a single caretaker by id from the database"""
     return (
         db.query(models.UserModel)
@@ -33,5 +34,18 @@ def get_caretaker_by_id(user_id: int, db: Session) -> models.UserModel:
             )
         )
         .options(joinedload(models.UserModel.additional_details))
+        .first()
+    )
+
+
+def get_all_caretaker_ids_for_a_particular_patient(user_id: int, db: Session):
+    """Get all caretaker ids for a particular patient from the database"""
+    return (
+        db.query(
+            func.group_concat(
+                func.distinct(models.patient_caretaker_association_table.c.caretaker_id)
+            )
+        )
+        .filter(models.patient_caretaker_association_table.c.patient_id == user_id)
         .first()
     )
