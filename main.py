@@ -14,6 +14,7 @@ from routers.admin import (
     doctors,
     patients,
     users,
+    stats,
 )
 
 # Current user level routes - Non admin
@@ -61,6 +62,10 @@ tags_metadata = [
     {
         "name": "admin - patients",
         "description": "Read and fetch all patients - Admin level routes.",
+    },
+    {
+        "name": "admin - stats",
+        "description": "Get stats for the dashboard - Admin level routes.",
     },
     # Current level routes - Non admin
     ## Current - Patient user level routes
@@ -113,6 +118,7 @@ app.include_router(admins.router)
 app.include_router(caretakers.router)
 app.include_router(doctors.router)
 app.include_router(patients.router)
+app.include_router(stats.router)
 # Current user level routes - Non admin
 ## Current - Patient user level routes
 app.include_router(current_patient_actions.router)

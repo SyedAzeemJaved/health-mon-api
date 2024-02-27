@@ -168,8 +168,16 @@ class PatientHistory(PatientHistoryBaseClass):
 
 
 # Patient Action
-class PatientAction(BaseModel):
+class PatientActionBaseClass(BaseModel):
     action: PatientActionEnum
+
+
+# Stats
+class StatsBaseClass(BaseModel):
+    admin_count: int
+    caretaker_count: int
+    doctor_count: int
+    patient_count: int
 
 
 Token.model_rebuild()
